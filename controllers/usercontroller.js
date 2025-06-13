@@ -66,7 +66,7 @@ exports.userragister = async (req, res) => {
 exports.userlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const cheakmail = await usermodel.findOne({ email: email });
+        const cheakmail = await usermodel.findOne({ email: email }); 
 
         if (!cheakmail) {
             res.status(code.NOT_FOUND).json({ sucess: false, status: code.NOT_FOUND, message: "user not found" })
@@ -75,7 +75,7 @@ exports.userlogin = async (req, res) => {
         if (!cheackpass) {
             res.status(code.BAD_REQUEST).json({ sucess: false, status: code.BAD_REQUEST, message: "password is not valid" })
         }
-        const token = jwt.sign({ userId: cheakmail._id, email: cheakmail.email }, process.env.JWT_SECRATE, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: cheakmail._id, email: cheakmail.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ msg: "user login sucessfully", cheakmail: cheakmail, token: token });
     }
     catch (error) {
